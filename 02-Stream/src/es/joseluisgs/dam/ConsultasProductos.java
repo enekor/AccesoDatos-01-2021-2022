@@ -101,7 +101,7 @@ public class ConsultasProductos {
         System.out.println("Nombre de los productos con unidades en stock mayor de 10 ordenados por unidades en stock ascendente - Comparable");
         s = products.stream()
                 .filter(p -> p.getUnitsInStock() < 10)
-                .sorted()
+                .sorted() //usa el metodo compareTo de producto
                 .map(Product::getName);
         s.forEach(System.out::println); //imprime el resultado en consola
         System.out.println();
@@ -203,15 +203,15 @@ public class ConsultasProductos {
         // Having, filtros sobre los agregados o agrupamientos
         // Select  unitsInStock, sum(unitPrice) from products GROUP BY unitsInStock HAVING sum(unitPrice) > 100
         System.out.println("Obtener la suma del precio unitario de todos los productos agrupados por el número de existencias en el almacén, pero solo obtener aquellos registros cuya suma sea mayor a 100");
-        List<Map.Entry<Integer, Double>> entryList = products.stream()
+        List<Map.Entry<Integer, Double>> entryList = products.stream() //devuelve una lista de una vista del mapa (map.entry)
                 .collect( //en el método collect se especifican las funciones de agregación
-                        Collectors.groupingBy( // deseamos agrupar
+                        Collectors.groupingBy( // deseamos agrupar, devuelve un map
                                 Product::getUnitsInStock, //agrupamos por existencias en stock
                                 Collectors.summingDouble( //sumamos el precio unitario el cual es tipo double
                                         Product::getUnitPrice // agrupamos por proveedor
                                 )
                         )
-                ).entrySet()
+                ).entrySet() //cambia map a set
                 .stream() //volvemos a generar un stream
                 .filter(p -> p.getValue() > 100) //filtramos (simula el having)
                 .collect(Collectors.toList());

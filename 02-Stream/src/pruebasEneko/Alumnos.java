@@ -1,11 +1,13 @@
 package pruebasEneko;
 
 import es.joseluisgs.dam.model.Alumno;
-import org.w3c.dom.ls.LSOutput;
+//import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Alumnos {
 
@@ -54,7 +56,7 @@ public class Alumnos {
                 .limit(2).forEach(System.out::println);
 
         System.out.println("\n---Alumno con mayor edad ---");
-        System.out.println(listaAlumnos.stream().max((a1, a2) -> a1.getEdad()-a2.getEdad()));
+        System.out.println(listaAlumnos.stream().max(Comparator.comparingInt(Alumno::getEdad)));
 
         System.out.println("\n--- Alumno con menor edad ---");
         System.out.println(listaAlumnos.stream().min((a1, a2) -> a1.getEdad()-a2.getEdad()));
@@ -75,7 +77,7 @@ public class Alumnos {
 
         System.out.println("\n--- Migramos una lista de alumnos que contienen la a en el nombre a otra lista ---");
         List<Alumno> alumnosModificado = new ArrayList<>();
-        alumnosModificado=listaAlumnos.stream().filter(a -> a.getNombre().toLowerCase().contains("a")).toList();
+        alumnosModificado=listaAlumnos.stream().filter(a -> a.getNombre().toLowerCase().contains("a")).collect(Collectors.toList());
         alumnosModificado.stream().forEach(System.out::println);
 
 
